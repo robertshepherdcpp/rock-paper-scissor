@@ -14,14 +14,16 @@ char getuserchoice()
     char playerchoice;
     do
     {
-        cout << "---------------------" << endl;
-        cout << "ROCK PAPER SCISSORS" << endl;
-        cout << "---------------------" << endl;
-        cout << "choose one of the following" << endl;
-        cout << "enter 'r' for rock " << endl;
-        cout << "enter 'p' for paper " << endl;
-        cout << "enter 's' for scissors " << endl;
+        // dont use std::endl here as it flushes the output buffer, when that is not necessary, only a new line is needed.
+        cout << "---------------------\n";
+        cout << "ROCK PAPER SCISSORS\n";
+        cout << "---------------------\n";
+        cout << "choose one of the following:\n";
+        cout << "enter 'r' for rock\n";
+        cout << "enter 'p' for paper\n";
+        cout << "enter 's' for scissors\n";
         cin >> playerchoice;
+        playerchoice = tolower(playerchoice);
     } while (playerchoice != 'r' && playerchoice != 'p' && playerchoice != 's');
 
     return playerchoice;
@@ -57,7 +59,7 @@ void showchoice(char choice)
     switch (choice)
     {
     case 'r':
-        cout << "Stone\n"
+        cout << "Rock\n"
              << endl;
         break;
     case 'p':
@@ -100,7 +102,7 @@ void choosewinner(char player, char computer)
         }
         if (computer == 's')
         {
-            cout << "COMPUTER WIN" << endl;
+            cout << "COMPUTER WINS" << endl;
         }
         break;
 
@@ -121,6 +123,14 @@ void choosewinner(char player, char computer)
     }
 }
 
+auto tolower_str(std::string& s) -> std::string {
+    std::string temp{s};
+    for(int i = 0; i < s.size(); i++) { // probably better not to pass by refernce here as it is only a character
+        temp[i] = tolower(s[i]);
+    }
+    return temp;
+}
+
 int main()
 {
     c1 = 1;
@@ -133,10 +143,10 @@ int main()
     do
     {
         player = getuserchoice();
-        cout << "YOUR CHOICE IS  ";
+        cout << "YOUR CHOICE IS: ";
         showchoice(player);
         computer = getcomputerchoice();
-        cout << "COMP CHOOSE ";
+        cout << "COMPUTER CHOOSES: ";
         showchoice(computer);
         cout << " " << endl;
         choosewinner(player, computer);
@@ -144,11 +154,7 @@ int main()
         cin >> again;
         cout << "\n";
 
-        for (auto &i : again)
-        {
-            i = tolower(i);
-        }
-    } while (again == "yes");
+    } while (tolower_str(again) == "yes");
 
     return 0;
 }
